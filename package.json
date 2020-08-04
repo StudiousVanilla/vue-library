@@ -21,7 +21,8 @@
   "dependencies": {
     "firebase": "^7.17.1",
     "vue": "^2.6.11",
-    "vue-resource": "^1.5.1"
+    "vue-resource": "^1.5.1",
+    "vuefire": "^2.2.4"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

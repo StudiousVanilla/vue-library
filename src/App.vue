@@ -8,8 +8,9 @@
     <App-Header
       v-bind:menuOverlay="menuOverlay"
       v-on:changeMenuOverlay="changeMenuOverlay($event)"
+      v-on:genreFilter="(...args) => this.genreFilter(...args)"
     ></App-Header>
-    <App-Category></App-Category>
+    <App-Category v-on:sort="(...args) => this.sort(...args)"></App-Category>
     <App-Library
       v-bind:books="books"
       v-on:removeBook="removeBook($event)"
@@ -56,11 +57,76 @@ export default {
     },
     removeBook(bookToBeRemoved) {
       this.books = this.books.filter((book) => book !== bookToBeRemoved);
-      console.log(bookToBeRemoved.fireId);
+      console.log();
+      this.$http.delete(
+        'https://oisin-vue-library.firebaseio.com/fireBooks/' +
+          bookToBeRemoved.fireId +
+          '.json'
+      );
       // update database with book array next
     },
     changeMenuOverlay(status) {
       this.menuOverlay = !this.menuOverlay;
+    },
+    sort(x, y) {
+      if (y == true) {
+        if (x === 'title') {
+          const sortedBooks = this.books.sort((a, b) =>
+            a.title > b.title ? 1 : -1
+          );
+          this.books = sortedBooks;
+        } else if (x === 'author') {
+          const sortedBooks = this.books.sort((a, b) =>
+            a.author > b.author ? 1 : -1
+          );
+          this.books = sortedBooks;
+        } else if (x === 'read') {
+          const sortedBooks = this.books.sort((a, b) =>
+            a.read > b.read ? 1 : -1
+          );
+
+          this.books = sortedBooks;
+
+          console.log('poop');
+        }
+      } else {
+        if (x === 'title') {
+          const sortedBooks = this.books.sort((a, b) =>
+            a.title > b.title ? -1 : 1
+          );
+          this.books = sortedBooks;
+        } else if (x === 'author') {
+          const sortedBooks = this.books.sort((a, b) =>
+            a.author > b.author ? -1 : 1
+          );
+          this.books = sortedBooks;
+        } else if (x === 'read') {
+          const sortedBooks = this.books.sort((a, b) =>
+            a.read > b.read ? -1 : 1
+          );
+          this.books = sortedBooks;
+        }
+      }
+    },
+    genreFilter(x, y) {
+      const filteredBooks = this.books.filter((book) => book.genre === x);
+      if (y == true) {
+        this.books = filteredBooks;
+      } else {
+        this.books = this.$http
+          .get('https://oisin-vue-library.firebaseio.com/fireBooks.json')
+          .then(function(data) {
+            return data.json();
+          })
+          .then(function(data) {
+            let fireBooksArray = [];
+            for (let key in data) {
+              data[key].fireId = key;
+              fireBooksArray.push(data[key]);
+            }
+            this.books = fireBooksArray;
+          });
+      }
     },
   },
 

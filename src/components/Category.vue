@@ -1,13 +1,34 @@
 <template>
   <div>
     <span class="big">
-      <h3>Title</h3>
+      <h3
+        v-on:click="
+          sort('title', titleBoolean);
+          titleBoolean = !titleBoolean;
+        "
+      >
+        Title
+      </h3>
     </span>
     <span class="big">
-      <h3>Author</h3>
+      <h3
+        v-on:click="
+          sort('author', authorBoolean);
+          authorBoolean = !authorBoolean;
+        "
+      >
+        Author
+      </h3>
     </span>
     <span>
-      <h3>Read</h3>
+      <h3
+        v-on:click="
+          sort('read', readBoolean);
+          readBoolean = !readBoolean;
+        "
+      >
+        Read
+      </h3>
     </span>
     <span class="invisible">
       <h3>Delete</h3>
@@ -16,7 +37,20 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      titleBoolean: true,
+      authorBoolean: true,
+      readBoolean: true,
+    };
+  },
+  methods: {
+    sort(x, y) {
+      this.$emit('sort', x, y);
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -41,6 +75,10 @@ span {
 
 .big {
   width: 32%;
+}
+
+h3:hover {
+  cursor: pointer;
 }
 
 .invisible {

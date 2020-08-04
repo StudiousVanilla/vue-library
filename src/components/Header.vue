@@ -3,11 +3,46 @@
     <i class="material-icons" v-on:click="changeMenuOverlay">menu</i>
     <transition name="slide" appear>
       <div class="menuOverlay" v-if="menuOverlay">
-        <span class="fantasy">Fantasy</span>
-        <span class="sci-fi">Sci-Fi</span>
-        <span class="fiction">Fiction</span>
-        <span class="history">History</span>
-        <span class="biography">Biography</span>
+        <span
+          v-on:click="
+            genreFilter('fantasy', fantasyBoolean);
+            fantasyBoolean = !fantasyBoolean;
+          "
+          class="fantasy"
+          >Fantasy</span
+        >
+        <span
+          v-on:click="
+            genreFilter('sci-fi', scifiBoolean);
+            scifiBoolean = !scifiBoolean;
+          "
+          class="sci-fi"
+          >Sci-Fi</span
+        >
+        <span
+          v-on:click="
+            genreFilter('fiction', fictionBoolean);
+            fictionBoolean = !fictionBoolean;
+          "
+          class="fiction"
+          >Fiction</span
+        >
+        <span
+          v-on:click="
+            genreFilter('history', historyBoolean);
+            historyBoolean = !historyBoolean;
+          "
+          class="history"
+          >History</span
+        >
+        <span
+          v-on:click="
+            genreFilter('biography', biographyBoolean);
+            biographyBoolean = !biographyBoolean;
+          "
+          class="biography"
+          >Biography</span
+        >
       </div>
     </transition>
     <header>
@@ -18,10 +53,22 @@
 
 <script>
 export default {
-  props: ["menuOverlay"],
+  props: ['menuOverlay'],
+  data() {
+    return {
+      fantasyBoolean: true,
+      scifiBoolean: true,
+      fictionBoolean: true,
+      historyBoolean: true,
+      biographyBoolean: true,
+    };
+  },
   methods: {
     changeMenuOverlay() {
-      this.$emit("changeMenuOverlay", this.menuOverlay);
+      this.$emit('changeMenuOverlay', this.menuOverlay);
+    },
+    genreFilter(x, y) {
+      this.$emit('genreFilter', x, y);
     },
   },
 };
