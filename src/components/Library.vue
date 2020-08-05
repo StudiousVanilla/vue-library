@@ -4,15 +4,15 @@
       <li v-for="(book, index) in books" :key="index" v-bind:class="book.genre">
         <span class="big">{{ book.title }}</span>
         <span class="big">{{ book.author }}</span>
-        <button id="button1" v-on:click="book.read = !book.read">
-          <i class="material-icons">{{
+        <button id="button1" v-on:click="book.read = !book.read; updateRead(book);">
+          <i class="material-icons">
+            {{
             book.read ? 'bookmark' : 'bookmark_border'
-          }}</i>
+            }}
+          </i>
         </button>
         <button id="button2" v-on:click="book.keep = !book.keep">
-          <i class="material-icons" v-on:click="removeBook(book)"
-            >remove_circle_outline</i
-          >
+          <i class="material-icons" v-on:click="removeBook(book)">remove_circle_outline</i>
         </button>
       </li>
     </ul>
@@ -21,13 +21,16 @@
 
 <script>
 export default {
-  props: ['books'],
+  props: ["books"],
   data() {
     return {};
   },
   methods: {
     removeBook(book) {
-      this.$emit('removeBook', book);
+      this.$emit("removeBook", book);
+    },
+    updateRead(book) {
+      this.$emit("updateRead", book);
     },
   },
 };

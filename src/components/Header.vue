@@ -2,58 +2,53 @@
   <div class="container">
     <i class="material-icons" v-on:click="changeMenuOverlay">menu</i>
     <transition name="slide" appear>
-      <div class="menuOverlay" v-if="menuOverlay">
+      <div class="menuOverlay" v-if="menuOverlay" v-on:click="changeMenuOverlay">
         <span
           v-on:click="
             genreFilter('fantasy', fantasyBoolean);
             fantasyBoolean = !fantasyBoolean;
           "
           class="fantasy"
-          >Fantasy</span
-        >
+        >Fantasy</span>
         <span
           v-on:click="
             genreFilter('sci-fi', scifiBoolean);
             scifiBoolean = !scifiBoolean;
           "
           class="sci-fi"
-          >Sci-Fi</span
-        >
+        >Sci-Fi</span>
         <span
           v-on:click="
             genreFilter('fiction', fictionBoolean);
             fictionBoolean = !fictionBoolean;
           "
           class="fiction"
-          >Fiction</span
-        >
+        >Fiction</span>
         <span
           v-on:click="
             genreFilter('history', historyBoolean);
             historyBoolean = !historyBoolean;
           "
           class="history"
-          >History</span
-        >
+        >History</span>
         <span
           v-on:click="
             genreFilter('biography', biographyBoolean);
             biographyBoolean = !biographyBoolean;
           "
           class="biography"
-          >Biography</span
-        >
+        >Biography</span>
       </div>
     </transition>
     <header>
-      <h1>Oisín's Library</h1>
+      <h1 v-on:click="resetLibrary();">Oisín's Library</h1>
     </header>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['menuOverlay'],
+  props: ["menuOverlay"],
   data() {
     return {
       fantasyBoolean: true,
@@ -65,10 +60,13 @@ export default {
   },
   methods: {
     changeMenuOverlay() {
-      this.$emit('changeMenuOverlay', this.menuOverlay);
+      this.$emit("changeMenuOverlay", this.menuOverlay);
+    },
+    resetLibrary() {
+      this.$emit("resetLibrary");
     },
     genreFilter(x, y) {
-      this.$emit('genreFilter', x, y);
+      this.$emit("genreFilter", x, y);
     },
   },
 };
@@ -170,7 +168,7 @@ span:hover {
     flex-direction: column;
     top: 8%;
     width: 100%;
-    height: 80%;
+    height: 76%;
     font-size: 4vh;
   }
 
@@ -180,8 +178,3 @@ span:hover {
 }
 </style>
 
-<!--
-
-Put in animation fro genre bar thingsw appearing!
-
--->
